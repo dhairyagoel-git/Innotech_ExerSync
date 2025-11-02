@@ -1,0 +1,1984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExerSync - Move. Earn. Repeat.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-green: #39FF14;
+            --neon-cyan: #00FFFF;
+            --dark-bg: #0B0C10;
+            --dark-secondary: #1F2833;
+            --text-primary: #ffffff;
+            --text-secondary: #C5C6C7;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at top left, var(--dark-bg) 0%, var(--dark-secondary) 100%);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(57, 255, 20, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(0, 255, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--neon-green);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+            25% { transform: translateY(-100px) translateX(50px); opacity: 0.6; }
+            50% { transform: translateY(-200px) translateX(-50px); opacity: 0.3; }
+            75% { transform: translateY(-100px) translateX(30px); opacity: 0.6; }
+        }
+
+        /* Navbar Styles */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 5%;
+            background: rgba(11, 12, 16, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 1rem 5%;
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(57, 255, 20, 0.5);
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-green);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--neon-green);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--neon-green);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            max-width: 900px;
+            padding: 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease 0.3s backwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.6s backwards;
+        }
+
+        .btn {
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            color: var(--dark-bg);
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(57, 255, 20, 0.8);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--neon-green);
+            border: 2px solid var(--neon-green);
+        }
+
+        .btn-secondary:hover {
+            background: var(--neon-green);
+            color: var(--dark-bg);
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Feature Cards */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 5rem auto;
+            padding: 0 5%;
+        }
+
+        .feature-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .feature-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-green);
+            box-shadow: 0 10px 40px rgba(57, 255, 20, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--neon-green);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Section Styles */
+        section {
+            min-height: 100vh;
+            padding: 8rem 5%;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 3rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            line-height: 1.8;
+        }
+
+        /* About Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .team-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.5s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .team-card:hover {
+            transform: rotateY(10deg) rotateX(5deg);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 20px 60px rgba(0, 255, 255, 0.3);
+        }
+
+        .team-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            border: 3px solid var(--neon-green);
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.5);
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--dark-bg);
+        }
+
+        .team-card h3 {
+            font-size: 1.5rem;
+            color: var(--neon-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .team-card .role {
+            color: var(--neon-cyan);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .team-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .mission {
+            margin-top: 5rem;
+            padding: 3rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            text-align: center;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .mission h3 {
+            font-size: 2rem;
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .mission p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Store Section */
+        .coin-balance {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--neon-green);
+            border-radius: 20px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.3);
+        }
+
+        .coin-balance h3 {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .coin-amount {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 15px 50px rgba(0, 255, 255, 0.3);
+        }
+
+        .product-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .product-card h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--neon-green);
+            margin-bottom: 1.5rem;
+        }
+
+        .product-card .btn {
+            width: 100%;
+            padding: 0.8rem;
+        }
+
+        /* Nutrition Section */
+        .nutrition-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nutrition-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            color: var(--dark-bg);
+            border: none;
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+        }
+
+        .nutrition-content {
+            display: none;
+        }
+
+        .nutrition-content.active {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .nutrition-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .nutrition-card:hover {
+            border-color: var(--neon-green);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(57, 255, 20, 0.2);
+        }
+
+        .nutrition-card h4 {
+            font-size: 1.3rem;
+            color: var(--neon-green);
+            margin-bottom: 1rem;
+        }
+
+        .nutrition-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .ai-suggestion {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(57, 255, 20, 0.1), rgba(0, 255, 255, 0.1));
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--neon-cyan);
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .ai-suggestion h3 {
+            font-size: 1.8rem;
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .ai-suggestion p {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .tip-carousel {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            text-align: center;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tip-carousel p {
+            font-size: 1.3rem;
+            color: var(--neon-green);
+            font-weight: 500;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Dashboard Section */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto 4rem;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .progress-ring {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+        }
+
+        .progress-ring svg {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring-circle {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.1);
+            stroke-width: 8;
+        }
+
+        .progress-ring-progress {
+            fill: none;
+            stroke: url(#gradient);
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s ease;
+        }
+
+        .progress-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--neon-green);
+        }
+
+        .stat-label {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .chart-container {
+            margin-top: 4rem;
+            padding: 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .chart-container h3 {
+            text-align: center;
+            color: var(--neon-cyan);
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Rewards Section */
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto 4rem;
+        }
+
+        .reward-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.5s ease;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .reward-card.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .reward-card:hover {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 50px rgba(57, 255, 20, 0.5);
+            transform: scale(1.05);
+        }
+
+        .reward-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .reward-card h3 {
+            font-size: 1.5rem;
+            color: var(--neon-green);
+            margin-bottom: 1rem;
+        }
+
+        .reward-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .motivation-quote {
+            margin-top: 4rem;
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(57, 255, 20, 0.1), rgba(0, 255, 255, 0.1));
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--neon-cyan);
+            border-radius: 20px;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .motivation-quote p {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--dark-bg);
+            border: 2px solid var(--neon-green);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--neon-green);
+        }
+
+        .modal-content h2 {
+            text-align: center;
+            color: var(--neon-green);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--glass-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--neon-green);
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+        }
+
+        .form-btn {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--dark-bg), var(--dark-secondary));
+            padding: 3rem 5%;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--neon-green);
+            transform: translateY(-5px);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Scroll to Top Button */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            border: none;
+            border-radius: 50%;
+            color: var(--dark-bg);
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 0 40px rgba(57, 255, 20, 0.8);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: rgba(11, 12, 16, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 2rem;
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .hero-content .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .store-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rewards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                padding: 0.8rem 2rem;
+                font-size: 1rem;
+            }
+        }
+
+        /* Loading Animation */
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(57, 255, 20, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(57, 255, 20, 1); }
+        }
+
+        .glowing {
+            animation: glow 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">ExerSync</div>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#store" class="nav-link">Store</a></li>
+                <li><a href="#nutrition" class="nav-link">Nutrition</a></li>
+                <li><a href="#dashboard" class="nav-link">Dashboard</a></li>
+                <li><a href="#rewards" class="nav-link">Rewards</a></li>
+                <li><a href="#" class="nav-link" id="loginBtn">Login</a></li>
+                <li><a href="#" class="nav-link" id="signupBtn">Signup</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home">
+        <div class="hero-content">
+            <h1 id="heroTitle">Move. Earn. Repeat.</h1>
+            <p class="subtitle">A VR-powered fitness world where your workouts earn ExerCoins.</p>
+            <div class="hero-buttons">
+                <a href="#dashboard" class="btn btn-primary">Get Started</a>
+                <a href="#store" class="btn btn-secondary">Explore Store</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Cards -->
+    <div class="features">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-dumbbell"></i>
+            </div>
+            <h3>Workout Tracking</h3>
+            <p>Track every rep, every calorie, every moment. Your fitness journey captured in immersive VR reality.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-coins"></i>
+            </div>
+            <h3>Real Rewards</h3>
+            <p>Turn sweat into currency. Earn ExerCoins with every workout and redeem them for premium products.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-brain"></i>
+            </div>
+            <h3>AI Progress Insights</h3>
+            <p>Get personalized recommendations powered by AI. Optimize your training with data-driven insights.</p>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title">Meet Our Team</h2>
+        <p class="section-subtitle">A passionate group of innovators building the future of fitness technology.</p>
+        
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-photo">VK</div>
+                <h3>Vikash Kumar</h3>
+                <p class="role">IT, KIET (2nd Year)</p>
+                <p>Full-stack developer passionate about creating immersive fitness experiences through cutting-edge technology.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-photo">SR</div>
+                <h3>Suhana Raj</h3>
+                <p class="role">CSIT, KIET</p>
+                <p>Data scientist focused on AI-driven fitness analytics and personalized workout recommendations.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-photo">SU</div>
+                <h3>Suryansh</h3>
+                <p class="role">VR Coordinator, Innogeeks Mentor</p>
+                <p>VR specialist and innovation mentor bringing virtual reality fitness to life with creative solutions.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-photo">DG</div>
+                <h3>Dhairya Goel</h3>
+                <p class="role">CSE, KIET (2nd Year)</p>
+                <p>Backend architect designing scalable systems for gamified fitness and reward mechanisms.</p>
+            </div>
+        </div>
+
+        <div class="mission">
+            <h3>Our Mission</h3>
+            <p>Our goal is to make fitness engaging, data-driven, and rewarding. We believe that everyone deserves access to innovative tools that transform exercise from a chore into an exciting adventure. By combining VR technology, gamification, and real-world rewards, we're creating a fitness revolution.</p>
+        </div>
+    </section>
+
+    <!-- Store Section -->
+    <section id="store">
+        <h2 class="section-title">Exchange ExerCoins for Real Rewards</h2>
+        <p class="section-subtitle">Your hard work deserves recognition. Browse our premium collection and redeem your earned coins.</p>
+        
+        <div class="coin-balance">
+            <h3>Your Balance</h3>
+            <div class="coin-amount" id="coinAmount">340</div>
+            <p style="color: var(--neon-green); margin-top: 0.5rem;">ExerCoins</p>
+        </div>
+
+        <div class="store-grid">
+            <div class="product-card">
+                <div class="product-icon"><i class="fas fa-watch"></i></div>
+                <h3>Smart Fitness Band</h3>
+                <div class="product-price">150 <small>coins</small></div>
+                <button class="btn btn-primary redeem-btn" data-product="Smart Fitness Band" data-price="150">Redeem</button>
+            </div>
+            <div class="product-card">
+                <div class="product-icon"><i class="fas fa-cookie-bite"></i></div>
+                <h3>Protein Bar Pack</h3>
+                <div class="product-price">50 <small>coins</small></div>
+                <button class="btn btn-primary redeem-btn" data-product="Protein Bar Pack" data-price="50">Redeem</button>
+            </div>
+            <div class="product-card">
+                <div class="product-icon"><i class="fas fa-bottle-water"></i></div>
+                <h3>Premium Water Bottle</h3>
+                <div class="product-price">40 <small>coins</small></div>
+                <button class="btn btn-primary redeem-btn" data-product="Premium Water Bottle" data-price="40">Redeem</button>
+            </div>
+            <div class="product-card">
+                <div class="product-icon"><i class="fas fa-running"></i></div>
+                <h3>Running Shoes</h3>
+                <div class="product-price">200 <small>coins</small></div>
+                <button class="btn btn-primary redeem-btn" data-product="Running Shoes" data-price="200">Redeem</button>
+            </div>
+            <div class="product-card">
+                <div class="product-icon"><i class="fas fa-tshirt"></i></div>
+                <h3>Performance T-Shirt</h3>
+                <div class="product-price">80 <small>coins</small></div>
+                <button class="btn btn-primary redeem-btn" data-product="Performance T-Shirt" data-price="80">Redeem</button>
+            </div>
+            <div class="product-card">
+                <div class="product-icon"><i class="fas fa-headphones"></i></div>
+                <h3>Wireless Earbuds</h3>
+                <div class="product-price">120 <small>coins</small></div>
+                <button class="btn btn-primary redeem-btn" data-product="Wireless Earbuds" data-price="120">Redeem</button>
+            </div>
+            <div class="product-card">
+                <div class="product-icon"><i class="fas fa-dumbbell"></i></div>
+                <h3>Adjustable Dumbbells</h3>
+                <div class="product-price">180 <small>coins</small></div>
+                <button class="btn btn-primary redeem-btn" data-product="Adjustable Dumbbells" data-price="180">Redeem</button>
+            </div>
+            <div class="product-card">
+                <div class="product-icon"><i class="fas fa-mobile-alt"></i></div>
+                <h3>Gym Bag</h3>
+                <div class="product-price">70 <small>coins</small></div>
+                <button class="btn btn-primary redeem-btn" data-product="Gym Bag" data-price="70">Redeem</button>
+            </div>
+            <div class="product-card">
+                <div class="product-icon"><i class="fas fa-blender"></i></div>
+                <h3>Protein Shaker</h3>
+                <div class="product-price">30 <small>coins</small></div>
+                <button class="btn btn-primary redeem-btn" data-product="Protein Shaker" data-price="30">Redeem</button>
+            </div>
+            <div class="product-card">
+                <div class="product-icon"><i class="fas fa-vr-cardboard"></i></div>
+                <h3>VR Headset</h3>
+                <div class="product-price">500 <small>coins</small></div>
+                <button class="btn btn-primary redeem-btn" data-product="VR Headset" data-price="500">Redeem</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nutrition Section -->
+    <section id="nutrition">
+        <h2 class="section-title">Fuel Your Fitness Journey</h2>
+        <p class="section-subtitle">Discover nutrition plans, supplements, and expert tips to maximize your performance.</p>
+        
+        <div class="nutrition-container">
+            <div class="nutrition-tabs">
+                <button class="tab-btn active" data-tab="meals">Meals</button>
+                <button class="tab-btn" data-tab="supplements">Supplements</button>
+                <button class="tab-btn" data-tab="tips">Tips</button>
+            </div>
+
+            <div id="meals" class="nutrition-content active">
+                <div class="nutrition-card">
+                    <h4>High-Protein Breakfast</h4>
+                    <p>Start your day with eggs, oatmeal, and Greek yogurt. Perfect fuel for morning workouts with 35g protein.</p>
+                </div>
+                <div class="nutrition-card">
+                    <h4>Power Lunch Bowl</h4>
+                    <p>Grilled chicken, quinoa, avocado, and mixed vegetables. Balanced macros to sustain energy throughout the day.</p>
+                </div>
+                <div class="nutrition-card">
+                    <h4>Post-Workout Smoothie</h4>
+                    <p>Banana, berries, protein powder, and almond milk. Quick absorption for optimal muscle recovery.</p>
+                </div>
+                <div class="nutrition-card">
+                    <h4>Dinner Performance Plate</h4>
+                    <p>Salmon, sweet potato, and broccoli. Rich in omega-3s and complex carbs for overnight recovery.</p>
+                </div>
+            </div>
+
+            <div id="supplements" class="nutrition-content">
+                <div class="nutrition-card">
+                    <h4>Whey Protein Isolate</h4>
+                    <p>Fast-absorbing protein ideal for post-workout recovery. 25g protein per serving with minimal carbs.</p>
+                </div>
+                <div class="nutrition-card">
+                    <h4>Creatine Monohydrate</h4>
+                    <p>Boosts strength and muscle mass. Take 5g daily for enhanced performance in high-intensity workouts.</p>
+                </div>
+                <div class="nutrition-card">
+                    <h4>Omega-3 Fish Oil</h4>
+                    <p>Reduces inflammation and supports joint health. Essential for athletes and active individuals.</p>
+                </div>
+                <div class="nutrition-card">
+                    <h4>Multivitamin Complex</h4>
+                    <p>Fills nutritional gaps and supports overall health. Includes vitamins D, B12, and essential minerals.</p>
+                </div>
+            </div>
+
+            <div id="tips" class="nutrition-content">
+                <div class="nutrition-card">
+                    <h4>Hydration is Key</h4>
+                    <p>Drink at least 3-4 liters of water daily. Proper hydration improves performance and recovery.</p>
+                </div>
+                <div class="nutrition-card">
+                    <h4>Meal Timing Matters</h4>
+                    <p>Eat within 30-60 minutes post-workout. This window maximizes nutrient absorption and muscle repair.</p>
+                </div>
+                <div class="nutrition-card">
+                    <h4>Prioritize Whole Foods</h4>
+                    <p>Choose minimally processed foods. Whole grains, lean proteins, and vegetables provide optimal nutrition.</p>
+                </div>
+                <div class="nutrition-card">
+                    <h4>Sleep for Recovery</h4>
+                    <p>Get 7-9 hours of quality sleep. Your body repairs and grows during rest periods.</p>
+                </div>
+            </div>
+
+            <div class="ai-suggestion">
+                <h3><i class="fas fa-robot"></i> AI Nutrition Insight</h3>
+                <p>Eat smart. Hydrate well. Rest enough. Your body is your most valuable asset.</p>
+            </div>
+
+            <div class="tip-carousel">
+                <p id="carouselTip">Loading nutrition tip...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard">
+        <h2 class="section-title">Your Progress Dashboard</h2>
+        <p class="section-subtitle">Track your journey with real-time insights and performance metrics.</p>
+        
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <h3>Calories Burned</h3>
+                <div class="progress-ring">
+                    <svg width="150" height="150">
+                        <defs>
+                            <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#39FF14;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#00FFFF;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <circle class="progress-ring-circle" cx="75" cy="75" r="65"></circle>
+                        <circle class="progress-ring-progress" cx="75" cy="75" r="65" stroke-dasharray="408.407" stroke-dashoffset="163.363" stroke="url(#gradient1)"></circle>
+                    </svg>
+                    <div class="progress-value" id="caloriesValue">0</div>
+                </div>
+                <div class="stat-label" id="caloriesLabel">0 / 5000 kcal</div>
+            </div>
+
+            <div class="stat-card">
+                <h3>Training Time</h3>
+                <div class="progress-ring">
+                    <svg width="150" height="150">
+                        <circle class="progress-ring-circle" cx="75" cy="75" r="65"></circle>
+                        <circle class="progress-ring-progress" cx="75" cy="75" r="65" stroke-dasharray="408.407" stroke-dashoffset="204.204" stroke="url(#gradient1)"></circle>
+                    </svg>
+                    <div class="progress-value" id="timeValue">0</div>
+                </div>
+                <div class="stat-label" id="timeLabel">0 / 120 hours</div>
+            </div>
+
+            <div class="stat-card">
+                <h3>Sessions Completed</h3>
+                <div class="progress-ring">
+                    <svg width="150" height="150">
+                        <circle class="progress-ring-circle" cx="75" cy="75" r="65"></circle>
+                        <circle class="progress-ring-progress" cx="75" cy="75" r="65" stroke-dasharray="408.407" stroke-dashoffset="81.681" stroke="url(#gradient1)"></circle>
+                    </svg>
+                    <div class="progress-value" id="sessionsValue">0</div>
+                </div>
+                <div class="stat-label" id="sessionsLabel">0 / 100 sessions</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3>Weekly Activity Overview</h3>
+            <canvas id="activityChart" width="800" height="300"></canvas>
+        </div>
+    </section>
+
+    <!-- Rewards Section -->
+    <section id="rewards">
+        <h2 class="section-title">Achievements & Milestones</h2>
+        <p class="section-subtitle">Celebrate your victories and unlock exclusive badges as you progress.</p>
+        
+        <div class="rewards-grid">
+            <div class="reward-card">
+                <div class="reward-icon">🏆</div>
+                <h3>Consistency Hero</h3>
+                <p>Completed 30 consecutive days of training. Your dedication is inspiring!</p>
+            </div>
+            <div class="reward-card">
+                <div class="reward-icon">🔥</div>
+                <h3>1000 Cal Burned</h3>
+                <p>Burned over 1000 calories in a single session. You're on fire!</p>
+            </div>
+            <div class="reward-card">
+                <div class="reward-icon">💎</div>
+                <h3>First Redeem</h3>
+                <p>Redeemed your first reward. The journey of a thousand miles begins with one step!</p>
+            </div>
+            <div class="reward-card">
+                <div class="reward-icon">💪</div>
+                <h3>Iron Mind</h3>
+                <p>Completed 50 strength training sessions. Building a stronger you!</p>
+            </div>
+            <div class="reward-card">
+                <div class="reward-icon">⚡</div>
+                <h3>Speed Beast</h3>
+                <p>Achieved personal best in cardio performance. Speed and power combined!</p>
+            </div>
+            <div class="reward-card">
+                <div class="reward-icon">🎯</div>
+                <h3>Master of Motion</h3>
+                <p>Reached 100 total workout sessions. You've mastered the art of movement!</p>
+            </div>
+        </div>
+
+        <div class="motivation-quote">
+            <p id="motivationQuote">"Every move counts. Keep earning your future."</p>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeLogin">&times;</button>
+            <h2>Welcome Back</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary form-btn">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeSignup">&times;</button>
+            <h2>Join ExerSync</h2>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" placeholder="••••••••" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary form-btn">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <p>&copy; 2025 ExerSync. Built by Team KIET Innovators.</p>
+            <p style="margin-top: 1rem; color: var(--neon-green);">Move. Earn. Repeat.</p>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // ===== INITIALIZATION =====
+        document.addEventListener('DOMContentLoaded', () => {
+            initParticles();
+            initNavigation();
+            initScrollAnimations();
+            initModals();
+            initStore();
+            initNutrition();
+            initDashboard();
+            initRewards();
+            initQuotes();
+            initLocalStorage();
+        });
+
+        // ===== PARTICLES BACKGROUND =====
+        function initParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // ===== NAVIGATION =====
+        function initNavigation() {
+            const navbar = document.getElementById('navbar');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinksContainer = document.getElementById('navLinks');
+            const scrollTop = document.getElementById('scrollTop');
+
+            // Smooth scroll
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (link.getAttribute('href').startsWith('#') && link.getAttribute('href') !== '#') {
+                        e.preventDefault();
+                        const targetId = link.getAttribute('href');
+                        const targetSection = document.querySelector(targetId);
+                        
+                        if (targetSection) {
+                            targetSection.scrollIntoView({ behavior: 'smooth' });
+                            navLinksContainer.classList.remove('active');
+                        }
+                    }
+                });
+            });
+
+            // Mobile menu toggle
+            menuToggle.addEventListener('click', () => {
+                navLinksContainer.classList.toggle('active');
+            });
+
+            // Scroll events
+            window.addEventListener('scroll', () => {
+                // Navbar scroll effect
+                if (window.scrollY > 100) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+
+                // Scroll to top button
+                if (window.scrollY > 500) {
+                    scrollTop.classList.add('visible');
+                } else {
+                    scrollTop.classList.remove('visible');
+                }
+
+                // Active nav link
+                let current = '';
+                const sections = document.querySelectorAll('section');
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (window.scrollY >= sectionTop - 200) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // Scroll to top
+            scrollTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // ===== SCROLL ANIMATIONS =====
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe feature cards
+            document.querySelectorAll('.feature-card').forEach(card => {
+                observer.observe(card);
+            });
+
+            // Observe reward cards
+            document.querySelectorAll('.reward-card').forEach(card => {
+                observer.observe(card);
+            });
+        }
+
+        // ===== MODALS =====
+        function initModals() {
+            const loginModal = document.getElementById('loginModal');
+            const signupModal = document.getElementById('signupModal');
+            const loginBtn = document.getElementById('loginBtn');
+            const signupBtn = document.getElementById('signupBtn');
+            const closeLogin = document.getElementById('closeLogin');
+            const closeSignup = document.getElementById('closeSignup');
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+
+            // Open modals
+            loginBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginModal.classList.add('active');
+            });
+
+            signupBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                signupModal.classList.add('active');
+            });
+
+            // Close modals
+            closeLogin.addEventListener('click', () => {
+                loginModal.classList.remove('active');
+            });
+
+            closeSignup.addEventListener('click', () => {
+                signupModal.classList.remove('active');
+            });
+
+            // Close on outside click
+            window.addEventListener('click', (e) => {
+                if (e.target === loginModal) {
+                    loginModal.classList.remove('active');
+                }
+                if (e.target === signupModal) {
+                    signupModal.classList.remove('active');
+                }
+            });
+
+            // Login form submit
+            loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    try {
+        const res = await fetch("http://localhost:5000/api/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            alert(data.message || "Login failed");
+            return;
+        }
+
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        alert("Login Successful!");
+        
+        loginModal.classList.remove("active");
+        loginForm.reset();
+
+        // scroll to dashboard
+        document.querySelector('#dashboard').scrollIntoView({ behavior: 'smooth' });
+
+    } catch (err) {
+        console.log(err);
+        alert("Server error");
+    }
+});
+
+window.onload = () => {
+    const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user");
+
+    if (token && user) {
+        // User already logged in earlier
+        document.querySelector('#dashboard').scrollIntoView({ behavior: 'smooth' });
+    }
+};
+
+
+
+
+            // Signup form submit
+            signupForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    const confirmPassword = document.getElementById('signupConfirmPassword').value;
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+    }
+
+    try {
+        const res = await fetch("http://localhost:5000/api/auth/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, password, confirmPassword })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            alert(data.message || "Signup failed");
+            return;
+        }
+
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        alert(`Signup Successful! Welcome ${data.user.name}`);
+
+        signupModal.classList.remove("active");
+        signupForm.reset();
+
+    } catch (err) {
+        console.log(err);
+        alert("Server error");
+    }
+});
+        }
+
+        // ===== STORE FUNCTIONALITY =====
+        function initStore() {
+            const redeemButtons = document.querySelectorAll('.redeem-btn');
+            const coinAmountEl = document.getElementById('coinAmount');
+
+            redeemButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const product = btn.getAttribute('data-product');
+                    const price = parseInt(btn.getAttribute('data-price'));
+                    let currentCoins = parseInt(coinAmountEl.textContent);
+
+                    if (currentCoins >= price) {
+                        currentCoins -= price;
+                        coinAmountEl.textContent = currentCoins;
+                        localStorage.setItem('exersync_coins', currentCoins);
+                        
+                        // Success animation
+                        btn.textContent = '✓ Redeemed!';
+                        btn.style.background = 'linear-gradient(90deg, #00FF00, #00FFFF)';
+                        setTimeout(() => {
+                            btn.textContent = 'Redeem';
+                            btn.style.background = '';
+                        }, 2000);
+
+                        alert('🎉 Successfully redeemed: ' + product + '!\nRemaining coins: ' + currentCoins);
+                        
+                        // Level up effect
+                        showLevelUpEffect();
+                    } else {
+                        alert('⚠️ Insufficient coins! You need ' + (price - currentCoins) + ' more coins.');
+                    }
+                });
+            });
+        }
+
+        function showLevelUpEffect() {
+            const effect = document.createElement('div');
+            effect.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 4rem;
+                font-weight: 800;
+                background: linear-gradient(90deg, #39FF14, #00FFFF);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                z-index: 9999;
+                animation: levelUp 2s ease forwards;
+                pointer-events: none;
+            `;
+            effect.textContent = 'LEVEL UP!';
+            document.body.appendChild(effect);
+
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes levelUp {
+                    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+                    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+                    100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); }
+                }
+            `;
+            document.head.appendChild(style);
+
+            setTimeout(() => {
+                effect.remove();
+                style.remove();
+            }, 2000);
+        }
+
+        // ===== NUTRITION TABS =====
+        function initNutrition() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const nutritionContents = document.querySelectorAll('.nutrition-content');
+
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetTab = btn.getAttribute('data-tab');
+
+                    // Remove active class from all
+                    tabButtons.forEach(b => b.classList.remove('active'));
+                    nutritionContents.forEach(c => c.classList.remove('active'));
+
+                    // Add active class to clicked
+                    btn.classList.add('active');
+                    document.getElementById(targetTab).classList.add('active');
+                });
+            });
+
+            // Nutrition tips carousel
+            const tips = [
+                "Drink water before, during, and after workouts for optimal hydration.",
+                "Eat a banana 30 minutes before exercise for quick energy.",
+                "Include lean protein in every meal to support muscle recovery.",
+                "Green vegetables are packed with vitamins and minerals your body needs.",
+                "Avoid processed foods and choose whole, natural ingredients.",
+                "Your pre-workout meal should be eaten 2-3 hours before exercise.",
+                "Post-workout nutrition is crucial within the 30-minute window.",
+                "Don't skip breakfast - it kickstarts your metabolism for the day.",
+                "Healthy fats from nuts and avocados support hormone production.",
+                "Stay consistent with your nutrition just like your workouts."
+            ];
+
+            let currentTipIndex = 0;
+            const tipElement = document.getElementById('carouselTip');
+
+            function rotateTip() {
+                tipElement.style.opacity = '0';
+                setTimeout(() => {
+                    tipElement.textContent = tips[currentTipIndex];
+                    tipElement.style.opacity = '1';
+                    currentTipIndex = (currentTipIndex + 1) % tips.length;
+                }, 300);
+            }
+
+            rotateTip();
+            setInterval(rotateTip, 5000);
+        }
+
+        // ===== DASHBOARD =====
+        function initDashboard() {
+            // Animated counters
+            animateCounter('caloriesValue', 0, 3250, 2000, 'caloriesLabel', 5000, 'kcal');
+            animateCounter('timeValue', 0, 85, 2000, 'timeLabel', 120, 'hours');
+            animateCounter('sessionsValue', 0, 78, 2000, 'sessionsLabel', 100, 'sessions');
+
+            // Draw activity chart
+            drawActivityChart();
+        }
+
+        function animateCounter(elementId, start, end, duration, labelId, max, unit) {
+            const element = document.getElementById(elementId);
+            const labelElement = document.getElementById(labelId);
+            const increment = (end - start) / (duration / 16);
+            let current = start;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= end) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.round(current) + '%';
+                
+                // Update label
+                const actualValue = Math.round((current / 100) * max);
+                labelElement.textContent = actualValue + ' / ' + max + ' ' + unit;
+            }, 16);
+        }
+
+        function drawActivityChart() {
+            const canvas = document.getElementById('activityChart');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+
+            // Data
+            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            const data = [450, 520, 380, 610, 540, 680, 590];
+            const max = Math.max(...data);
+
+            // Styles
+            const barWidth = width / (days.length * 2);
+            const spacing = barWidth;
+            const maxBarHeight = height - 80;
+
+            // Draw bars
+            days.forEach((day, index) => {
+                const barHeight = (data[index] / max) * maxBarHeight;
+                const x = spacing + (index * (barWidth + spacing));
+                const y = height - barHeight - 40;
+
+                // Gradient
+                const gradient = ctx.createLinearGradient(x, y, x, height - 40);
+                gradient.addColorStop(0, '#39FF14');
+                gradient.addColorStop(1, '#00FFFF');
+
+                // Draw bar
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x, y, barWidth, barHeight);
+
+                // Draw day label
+                ctx.fillStyle = '#C5C6C7';
+                ctx.font = '14px Poppins';
+                ctx.textAlign = 'center';
+                ctx.fillText(day, x + barWidth / 2, height - 15);
+
+                // Draw value
+                ctx.fillStyle = '#39FF14';
+                ctx.font = 'bold 12px Poppins';
+                ctx.fillText(data[index], x + barWidth / 2, y - 10);
+            });
+
+            // Draw title
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 16px Poppins';
+            ctx.textAlign = 'left';
+            ctx.fillText('Calories Burned This Week', 20, 30);
+        }
+
+        // ===== REWARDS =====
+        function initRewards() {
+            // Rewards are animated via scroll observer already
+            // Additional functionality can be added here
+        }
+
+        // ===== MOTIVATIONAL QUOTES =====
+        function initQuotes() {
+            const quotes = [
+                "Every move counts. Keep earning your future.",
+                "Your body can stand almost anything. It's your mind you have to convince.",
+                "The only bad workout is the one that didn't happen.",
+                "Success starts with self-discipline.",
+                "Push yourself because no one else is going to do it for you.",
+                "Great things never come from comfort zones.",
+                "Don't wish for it. Work for it.",
+                "Sweat is fat crying.",
+                "Your only limit is you.",
+                "Strive for progress, not perfection.",
+                "Believe in yourself and you will be unstoppable.",
+                "The pain you feel today will be the strength you feel tomorrow."
+            ];
+
+            const quoteElement = document.getElementById('motivationQuote');
+            let currentQuoteIndex = 0;
+
+            function rotateQuote() {
+                quoteElement.style.opacity = '0';
+                setTimeout(() => {
+                    quoteElement.textContent = '"' + quotes[currentQuoteIndex] + '"';
+                    quoteElement.style.opacity = '1';
+                    currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+                }, 500);
+            }
+
+            setInterval(rotateQuote, 10000);
+        }
+
+        // ===== LOCAL STORAGE =====
+        function initLocalStorage() {
+            // Load coins from localStorage
+            const savedCoins = localStorage.getItem('exersync_coins');
+            if (savedCoins) {
+                document.getElementById('coinAmount').textContent = savedCoins;
+            } else {
+                localStorage.setItem('exersync_coins', '340');
+            }
+
+            // Check if user is logged in
+            const user = localStorage.getItem('exersync_user');
+            if (user) {
+                const userData = JSON.parse(user);
+                if (userData.loggedIn) {
+                    // Update UI for logged in user
+                    const loginBtn = document.getElementById('loginBtn');
+                    loginBtn.textContent = 'Profile';
+                    loginBtn.style.color = '#39FF14';
+                }
+            }
+        }
+
+        // ===== TYPING EFFECT FOR HERO =====
+        const heroTitle = document.getElementById('heroTitle');
+        const text = 'Move. Earn. Repeat.';
+        let index = 0;
+
+        function typeWriter() {
+            if (index < text.length) {
+                heroTitle.textContent = text.substring(0, index + 1);
+                index++;
+                setTimeout(typeWriter, 100);
+            }
+        }
+
+        // Start typing effect after page load
+        setTimeout(() => {
+            heroTitle.textContent = '';
+            typeWriter();
+        }, 500);
+    </script>
+</body>
+</html>

@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 
 dotenv.config();
-const app = express();  
+const app = express();
 
 // Middleware
 app.use(express.json());
@@ -14,7 +14,7 @@ app.use(cors());
 const authRoutes = require("./routes/authRoutes");
 const profileRoutes = require("./routes/UpdateProfile")
 app.use("/api/auth", authRoutes);
-app.use("/api/", profileRoutes);
+app.use("/api/", profileRoutes)
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI)

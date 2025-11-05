@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Profile = require("../models/profile");
-const protect = require("../middleware/authMiddleware"); // ✅ import middleware
+const protect = require("../middleware/authMiddleware");
 
 
 router.post("/update-profile" , async(req,res)=>{

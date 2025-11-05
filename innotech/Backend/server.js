@@ -10,8 +10,8 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: ["https://innotech-exer-sync.vercel.app/"], 
-    methods: ["POST", "GET"],
+    origin: ["https://innotech-exer-sync.vercel.app"], 
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );

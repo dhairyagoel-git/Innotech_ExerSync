@@ -2536,7 +2536,7 @@
           //     }
 
           //     try {
-          //       const res = await fetch("https://innotech-exersync.onrender.com/api/auth/signup", {
+          //       const res = await fetch("http://localhost:5000/api/auth/signup", {
           //         method: "POST",
           //         headers: { "Content-Type": "application/json" },
           //         body: JSON.stringify({
@@ -2546,10 +2546,10 @@
           //           confirmPassword,
           //         }),
           //       });
-          //       console.log("Reached here");
+          //       // console.log("Reached here");
           //       const data = await res.json();
 
-          //       console.log("Reached here2");
+          //       // console.log("Reached here2");
           //       if (!res.ok) {
           //         alert(data.message || "Signup failed");
           //         return;
@@ -2578,7 +2578,7 @@
           //       signupModal.classList.remove("active");
           //       signupForm.reset();
           //     } catch (err) {
-          //       console.log(err);
+          //       // console.log(err);
           //       alert("Server error");
           //     }
           //     // window.onload = () => {
@@ -3883,7 +3883,7 @@
 
         // Initialize
         init() {
-          console.log("ExerSync frontend ready");
+          // console.log("ExerSync frontend ready");
 
           // Setup navigation
           document.querySelectorAll(".nav-links a").forEach((link) => {
@@ -4154,7 +4154,7 @@
       function handleCredentialResponse(response) {
         const idToken = response.credential;
 
-        fetch("https://innotech-exersync.onrender.com/api/auth/google", {
+        fetch("http://localhost:5000/api/auth/google", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ credential: idToken }),
@@ -4166,7 +4166,7 @@
                 "Login failed: " + data.error;
               return;
             }
-            console.log(data);
+            // console.log(data);
             localStorage.setItem("APP_TOKEN", data.token);
             const profile = {
               name: data.user.name,
@@ -4197,15 +4197,15 @@
       }
 
       window.onload = function () {
-        var GOOGLE_CLIENT_ID ;
-        fetch("config.json")
-          .then((response) => response.json())
-          .then((config) => {
-            GOOGLE_CLIENT_ID = config.GOOGLE_CLIENT_ID
-          });
+        // var GOOGLE_CLIENT_ID ;
+        // fetch("config.json")
+        //   .then((response) => response.json())
+        //   .then((config) => {
+        //     GOOGLE_CLIENT_ID = config.GOOGLE_CLIENT_ID
+        //   });
         google.accounts.id.initialize({
           client_id:
-            GOOGLE_CLIENT_ID,
+            "G261268913069-cvesjicpg1g6j8iugttelnigeeopl8f0.apps.googleusercontent.com",
           callback: handleCredentialResponse,
         });
 
@@ -4229,19 +4229,19 @@
         const password = document.getElementById("loginPassword").value;
 
         try {
-          const res = await fetch("https://innotech-exersync.onrender.com/api/auth/login", {
+          const res = await fetch("http://localhost:5000/api/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
           });
 
           const data = await res.json();
-          console.log(data);
+          // console.log(data);
           if (!res.ok) {
             alert(data.message || "Login failed");
             return;
           }
-          console.log(data.user.coins);
+          // console.log(data.user.coins);
           const profile = {
             name: data.user.name,
             email: data.user.email,
@@ -4272,7 +4272,7 @@
           // scroll to dashboard
           // document.querySelector('#dashboard').scrollIntoView({ behavior: 'smooth' });
         } catch (err) {
-          console.log(err);
+          // console.log(err);
           ExerSync.ui.showToast(err.message);
         }
       });
@@ -4290,14 +4290,14 @@
         }
 
         try {
-          const res = await fetch("https://innotech-exersync.onrender.com/api/auth/signup", {
+          const res = await fetch("http://localhost:5000/api/auth/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, password, confirmPassword }),
           });
-          console.log("Request send");
+          //  ("Request send");
           const data = await res.json();
-          console.log(res, data);
+          // // console.log(res, data);
           if (!res.ok) {
             ExerSync.ui.showToast(data.message || "Signup failed");
             return;
@@ -4324,7 +4324,7 @@
           //   signupModal.classList.remove("active");
           signupForm.reset();
         } catch (err) {
-          console.log(err);
+          // console.log(err);
           ExerSync.ui.showToast(err.message);
         }
       });
@@ -4336,17 +4336,17 @@
         if (!email) return; // not logged in
 
         try {
-          const res = await fetch("https://innotech-exersync.onrender.com/api/update-profile", {
+          const res = await fetch("http://localhost:5000/api/update-profile", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ profile: { email, coins, xp } }),
           });
-          // console.log(email,xp,coins)
+          // // console.log(email,xp,coins)
           const data = res.json();
           if (!res.ok) {
-            console.log(res);
+            // console.log(res);
           }
-          //   console.log("Updated profile");
+          //   // console.log("Updated profile");
         } catch (err) {
           console.error("Failed to update profile to db : ", err);
         }

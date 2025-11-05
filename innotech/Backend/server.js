@@ -8,13 +8,7 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(
-  cors({
-    origin: ["https://innotech-exer-sync.vercel.app"], 
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
+app.use(cors());
 
 // Import Routes
 const authRoutes = require("./routes/authRoutes");

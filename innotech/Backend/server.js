@@ -12,8 +12,9 @@ app.use(cors());
 
 // Import Routes
 const authRoutes = require("./routes/authRoutes");
+const profileRoutes = require("./routes/UpdateProfile")
 app.use("/api/auth", authRoutes);
-
+app.use("/api/", profileRoutes);
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI)

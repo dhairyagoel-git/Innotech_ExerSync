@@ -4,11 +4,17 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 
 dotenv.config();
-const app = express();
+const app = express();  
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://innotech-exer-sync.vercel.app/"], 
+    methods: ["POST", "GET"],
+    credentials: true,
+  })
+);
 
 // Import Routes
 const authRoutes = require("./routes/authRoutes");

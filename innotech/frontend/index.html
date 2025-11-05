@@ -2536,7 +2536,7 @@
           //     }
 
           //     try {
-          //       const res = await fetch("http://localhost:5000/api/auth/signup", {
+          //       const res = await fetch("http://https://innotech-exersync.onrender.com/api/auth/signup", {
           //         method: "POST",
           //         headers: { "Content-Type": "application/json" },
           //         body: JSON.stringify({
@@ -4154,7 +4154,7 @@
       function handleCredentialResponse(response) {
         const idToken = response.credential;
 
-        fetch("http://localhost:5000/api/auth/google", {
+        fetch("http://https://innotech-exersync.onrender.com/api/auth/google", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ credential: idToken }),
@@ -4229,7 +4229,7 @@
         const password = document.getElementById("loginPassword").value;
 
         try {
-          const res = await fetch("http://localhost:5000/api/auth/login", {
+          const res = await fetch("http://https://innotech-exersync.onrender.com/api/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
@@ -4290,7 +4290,7 @@
         }
 
         try {
-          const res = await fetch("http://localhost:5000/api/auth/signup", {
+          const res = await fetch("http://https://innotech-exersync.onrender.com/api/auth/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, password, confirmPassword }),
@@ -4336,7 +4336,7 @@
         if (!email) return; // not logged in
 
         try {
-          const res = await fetch("http://localhost:5000/api/update-profile", {
+          const res = await fetch("http://https://innotech-exersync.onrender.com/api/update-profile", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ profile: { email, coins, xp } }),

@@ -2536,7 +2536,7 @@
           //     }
 
           //     try {
-          //       const res = await fetch("https://innotech-exersync.onrender.com/api/auth/signup", {
+          //       const res = await fetch("http://localhost:5000/api/auth/signup", {
           //         method: "POST",
           //         headers: { "Content-Type": "application/json" },
           //         body: JSON.stringify({
@@ -4154,7 +4154,7 @@
       async function handleCredentialResponse(response) {
         const idToken = response.credential;
         try{
-        const res = await fetch("https://innotech-exersync.onrender.com/api/auth/google", {
+        const res = await fetch("http://localhost:5000/api/auth/google", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ credential: idToken }),
@@ -4180,7 +4180,7 @@
             localStorage.setItem("token", data.token);
             localStorage.setItem("user", JSON.stringify(data.user));
 
-            ExerSync.data.save("ex_session", { email, timestamp: Date.now() });
+            ExerSync.data.save("ex_session", { email : data.user.email, timestamp: Date.now() });
 
             ExerSync.data.save("ex_coins", data.user.coins);
             ExerSync.data.save("ex_xp", data.user.xp);
@@ -4204,12 +4204,13 @@
         //   .then((config) => {
         //     GOOGLE_CLIENT_ID = config.GOOGLE_CLIENT_ID
         //   });
+        const GOOGLE_CLIENT_ID = "261268913069-cvesjicpg1g6j8iugttelnigeeopl8f0.apps.googleusercontent.com";
         google.accounts.id.initialize({
           client_id:
-            "G261268913069-cvesjicpg1g6j8iugttelnigeeopl8f0.apps.googleusercontent.com",
+            GOOGLE_CLIENT_ID,
           callback: handleCredentialResponse,
         });
-
+        console.log("Your client id : " ,GOOGLE_CLIENT_ID)
         // Render button in login
         google.accounts.id.renderButton(
           document.getElementById("google-login"),
@@ -4230,7 +4231,7 @@
         const password = document.getElementById("loginPassword").value;
 
         try {
-          const res = await fetch("https://innotech-exersync.onrender.com/api/auth/login", {
+          const res = await fetch("http://localhost:5000/api/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
@@ -4291,7 +4292,7 @@
         }
 
         try {
-          const res = await fetch("https://innotech-exersync.onrender.com/api/auth/signup", {
+          const res = await fetch("http://localhost:5000/api/auth/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, password, confirmPassword }),
@@ -4337,7 +4338,7 @@
         if (!email) return; // not logged in
 
         try {
-          const res = await fetch("https://innotech-exersync.onrender.com/api/update-profile", {
+          const res = await fetch("http://localhost:5000/api/update-profile", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ profile: { email, coins, xp } }),

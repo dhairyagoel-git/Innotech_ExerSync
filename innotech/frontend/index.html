@@ -4151,23 +4151,25 @@
           },
         },
       };
-      function handleCredentialResponse(response) {
+      async function handleCredentialResponse(response) {
         const idToken = response.credential;
-
-        fetch("https://innotech-exersync.onrender.com/api/auth/google", {
+        try{
+        const res = await fetch("https://innotech-exersync.onrender.com/api/auth/google", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ credential: idToken }),
         })
-          .then((r) => r.json())
-          .then((data) => {
-            if (data.error) {
-              document.getElementById("status").innerText =
-                "Login failed: " + data.error;
-              return;
-            }
+        const data = await res.json();
+
+          // .then((r) => r.json())
+          // .then((data) => {
+          //   if (data.error) {
+          //     document.getElementById("status").innerText =
+          //       "Login failed: " + data.error;
+          //     return;
+          //   }
             // console.log(data);
-            localStorage.setItem("APP_TOKEN", data.token);
+            // localStorage.setItem("APP_TOKEN", data.token);
             const profile = {
               name: data.user.name,
               email: data.user.email,
@@ -4178,10 +4180,8 @@
             localStorage.setItem("token", data.token);
             localStorage.setItem("user", JSON.stringify(data.user));
 
-            ExerSync.data.save("ex_session", {
-              email: data.user.email,
-              timestamp: Date.now(),
-            });
+            ExerSync.data.save("ex_session", { email, timestamp: Date.now() });
+
             ExerSync.data.save("ex_coins", data.user.coins);
             ExerSync.data.save("ex_xp", data.user.xp);
             ExerSync.data.save("ex_workouts", data.user.workouts);
@@ -4189,11 +4189,12 @@
             ExerSync.ui.showToast(`Welcome back, ${data.user.name}!`);
             ExerSync.ui.updateAuthUI();
             ExerSync.ui.navigateTo("dashboard");
-          })
-          .catch((err) => {
+          }
+        
+          catch(err)  {
             console.error(err);
             document.getElementById("status").innerText = "Network error";
-          });
+          };
       }
 
       window.onload = function () {

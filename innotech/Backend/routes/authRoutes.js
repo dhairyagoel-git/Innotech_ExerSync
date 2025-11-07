@@ -4,8 +4,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const Profile = require("../models/profile");
-const protect = require("../middleware/authMiddleware"); // ✅ import middleware
+const protect = require("../middleware/authMiddleware"); 
 const { OAuth2Client } = require("google-auth-library");
+const { sendWelcomeEmail } = require("../utils/emailService.js");
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -35,6 +36,9 @@ router.post("/signup", async (req, res) => {
   });
   await newUser.save();
   await newUserProfile.save();
+  console.log("Sending welcome email")
+  await sendWelcomeEmail(email, name);
+
   const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
     expiresIn: "1d",
   });
@@ -79,7 +83,7 @@ router.post("/login", async (req, res) => {
 //  PROTECTED ROUTE — Add here
 router.get("/profile", protect, async (req, res) => {
   const user = await User.findById(req.user.id).select("-password");
-  console.log(user);
+  // console.log(user);
   res.json({
     message: "Profile fetched successfully",
     user,
@@ -129,6 +133,7 @@ router.post("/google", async (req, res) => {
       });
       await profile.save();
       console.log("New Profile created.");
+      await sendWelcomeEmail(email, name);
     }
 
     // Create JWT
